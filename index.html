@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link rel="stylesheet" href="css/style.css"/>
+		<title>飞机作战</title>
+	</head>
+	<body data-status="index">
+		<canvas id="game"></canvas>
+		<div class="ui-index">
+			<h1>飞机大作战</h1>
+			<div class="bt-group">
+				<button class="js-start btn">开始游戏</button>
+				<button class="js-setting btn">游戏设置</button>
+				<button class="js-rule btn">游戏说明</button>
+			</div>			
+		</div>
+		<div class="ui-rule ui-panel">
+			<h2>游戏说明</h2>
+			<p>通过手指移动飞机，躲避敌人，通过子弹射击敌人得分；游戏无限时；消灭小型飞机得100分，消灭大型飞机得1000分</p>
+			<button class="js-confirm-rule">我知道了</button>			
+		</div>
+		<div class="ui-setting ui-panel">
+			<h2>游戏设置</h2>
+			<ul class="setting-group">
+				<li class="setting">
+					<span class="setting-title">音乐设置</span>
+					<select id="musicSet">
+						<option value="0">开启</option>	
+						<option value="1">关闭</option>
+					</select>
+				</li>
+				<li class="setting">
+					<span class="setting-title">背景设置</span>
+					<select id="bgSet">
+						<option value="1">夜袭墓地</option>
+						<option value="2">迷失古迹</option>
+						<option value="3">原始森林</option>
+						<option value="4">爆裂火山</option>
+					</select>
+				</li>
+				<li class="setting">
+					<span class="setting-title">战机设置</span>
+					<select id="planeSet">
+						<option value="bluePlaneIcon">蓝色战机</option>
+						<option value="pinkPlaneIcon">粉色战机</option>
+					</select>					
+				</li>
+			</ul>
+			
+			<button class="js-confirm-setting">确认设置</button>			
+		</div>
+		<div class="ui-end ui-panel">
+			<h2>游戏结束</h2>
+			<p></p>
+			<button class="js-playAgain">再玩一次</button>		
+		</div>
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript" src="js/resource.js"></script>		
+		<script type="text/javascript" src="js/element.js"></script>
+		<script type="text/javascript" src="js/enemy.js"></script>
+		<script type="text/javascript" src="js/bullet.js"></script>
+		<script type="text/javascript" src="js/plane.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+	</body>
+</html>

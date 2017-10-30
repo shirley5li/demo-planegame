@@ -1,0 +1,98 @@
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+body {
+	background-image: url('../images/bg_1.jpg');
+	color: #fff;
+	background-size: cover;
+}
+
+.ui-index {
+	height: 284px;
+	position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-top: -142px;
+    /*display: none;*/
+}
+.ui-index h1 {
+	font-size: 50px;
+	text-shadow: 2px 8px 2px #000;
+	text-align: center;
+}
+.ui-index .btn {
+	display: block;
+    color: #fff;
+    font-size: 20px;
+    background: none;
+    border: 1px solid #999;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    width: 140px;
+    margin: 0 auto 14px auto;
+}
+.ui-panel {
+	width: 80%;
+    background-color: #070808;
+    padding: 14px;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    text-align: center;
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    margin-top: -109px;
+    box-sizing: border-box;
+}
+.ui-panel button {
+	color: #fff;
+    border: 1px solid #fff;
+    background: none;
+    font-size: 18px;
+}
+/*
+.ui-rule {
+	display: none;
+}
+*/
+/*
+.ui-setting {
+    display: none;
+}
+*/
+.setting-group {
+	list-style: none;
+	padding: 0;
+}
+.setting-group .setting {
+	margin-bottom: 10px;
+}
+.setting-group select {
+    width: 100px;
+    background: #fff;
+    text-align: center;
+    margin-left: 10px;
+    border-radius: 0;
+}
+/*游戏登录后主页、游戏设置、游戏说明 即ui-index,ui-setting,ui-rule默认隐藏*/
+.ui-index,
+.ui-setting,
+.ui-rule,
+.ui-end {
+    display: none;
+}
+
+/*游戏状态切换，通过切换body的data-status属性为不同值来切换游戏状态*/
+[data-status="index"] .ui-index {
+    display: block;
+}
+[data-status="setting"] .ui-setting {
+    display: block;
+}
+[data-status="rule"] .ui-rule {
+    display: block;
+}
+[data-status="end"] .ui-end {
+    display: block;
+}
