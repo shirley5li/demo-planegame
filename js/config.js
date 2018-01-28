@@ -3,15 +3,19 @@
 *@type {Object}
 ***/
 var CONFIG = {
+	// 战机配置
 	planeSize: {
-		width: 60,
-		height: 45
+		width: 60,//60
+		height: 45//45
 	},
 	planeType: 'bluePlaneIcon',//默认机型为蓝色
+	// 子弹配置
+	bulletSpeed: 10,//默认子弹移动速度
 	bulletSize: {
 		width: 20,
 		height: 20
 	},
+	// 敌人配置
 	enemySpeed: 3,//默认敌人移动速度
 	enemyMaxNum: 5,//敌人最大数目
 	enemySmallSize: {
@@ -22,7 +26,6 @@ var CONFIG = {
 		width: 100,
 		height: 70
 	},
-	bulletSpeed: 10,//默认子弹移动速度
 	resources: {
 		images: [
 			{src: './images/plane_1.png',

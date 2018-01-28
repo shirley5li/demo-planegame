@@ -24,14 +24,7 @@ var resourceHelper = {
     sound.src = src;
     return sound;
   },
-  // 根据名称返回图片对象
-  getImage: function(imageName) {
-    return  this.resources.images[imageName];
-  },
-  // 根据名称返回音频对象
-  getSound: function(soundName) {
-    return  this.resources.sounds[soundName];
-  },
+ 
   /**
    * 资源加载
    * @param  {Array} resources 资源列表
@@ -74,6 +67,15 @@ var resourceHelper = {
         }
       });
     }
+  },
+   // 根据名称返回图片对象
+  getImage: function(imageName) {
+    return  this.resources.images[imageName];
+  },
+  // 根据名称返回音频对象
+  getSound: function(soundName) {
+    return  this.resources.sounds[soundName];
   }
 }
+
 

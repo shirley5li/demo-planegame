@@ -3,6 +3,8 @@
 *1、 继承自 Element
 *2、 依赖 Bullet
 ***/
+// 组合使用构造函数模式和原型模式
+// 构造函数定义实例属性，原型模式定义方法和共享的属性
 var Plane = function(opts) {
 	var opts = opts || {};
 	// 调用父类的方法

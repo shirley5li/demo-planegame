@@ -4,17 +4,17 @@ var $body = $(document.body);
 //初始化canvas相关
 var $canvas = $("#game");
 var canvas = $canvas[0];
-// var canvas = document.getElementById("name");
 var context = canvas.getContext("2d");
-//设置画布的宽度和高度,window.innerWidth表示浏览器视口的宽度，包括垂直滚动条；window.innerHeight，浏览器窗口的视口（viewport）高度（以像素为单位），如果存在水平滚动条，则包括它
+//设置画布的宽度和高度，window.innerWidth表示可见视口的大小，即屏幕宽度
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-//获取canvas画布内部宽高（不包括垂直滚动条、边框、外边距）
+//获取canvas画布内容及内边距的大小（不包括垂直滚动条、边框、外边距）
 var canvasWidth = canvas.clientWidth;
 var canvasHeight = canvas.clientHeight;
 
 
-//判断是否有requestAnimationFrame方法，若无则模拟实现
+//判断是否有requestAnimationFrame方法(H5新增的定时器API)，用来实现动画的定时操作，若无则模拟实现该方法
+// 避免过度绘制的问题，动画不会掉帧
 window.requestAnimFrame =
 window.requestAnimationFrame ||
 window.webkitRequestAnimationFrame ||
@@ -22,7 +22,7 @@ window.mozRequestAnimationFrame ||
 window.oRequestAnimationFrame ||
 window.msRequestAnimationFrame ||
 function(callback) {
-    window.setTimeout(callback, 1000 / 30);
+    window.setTimeout(callback, 1000 / 60);
 };
 
 /********基本事件绑定*********/
@@ -32,52 +32,74 @@ function bindEvent() {
 	var self = this;
 	// 点击开始按钮，采用事件委托的方式，委托给body了。
 	$body.on('click', '.js-start', function() {
-		$body.attr('data-status', 'start');
+		// 鼠标点击声音
+		resourceHelper.getSound('buttonSound').play();
+		// 点击"开始游戏"按钮，进入正式游戏界面
+		$body.attr('data-status', 'start'); //'data-status'设置为'start'，其他的.ui-index,.ui-setting,.ui-rule,.ui-end 即为display:none
 		//开始游戏
 		GAME.start();
 	});
 
-	// 点击说明按钮
-	$body.on('click', '.js-rule', function() {
-		$body.attr('data-status', 'rule');
-	});
-
-	// 点击设置按钮
+	// 点击"游戏设置"按钮，进入游戏设置界面
 	$body.on('click', '.js-setting', function() {
+		// 鼠标点击声音
+		resourceHelper.getSound('buttonSound').play();
 		$body.attr('data-status', 'setting');
-		SET.start();
-
+		// SET.start();
 		// // 设置各种声音
-		// SET.music();
+		SET.music();
 		// // 设置背景图片
-		// SET.background();
+		SET.background();
 		// // 设置战机型号
-		// SET.fighter();
+		SET.fighter();
 
 	});
-	// 点击确认设置按钮
+	// 点击游戏设置界面的"确认设置"按钮
 	$body.on('click', '.js-confirm-setting', function() {
+		// 鼠标点击声音
+		resourceHelper.getSound('buttonSound').play();
+		// 设置各种声音
+		SET.music();
+		// // 设置背景图片
+		SET.background();
+		// // 设置战机型号
+		SET.fighter();
+
+		// 返回游戏主页面
 		$body.attr('data-status', 'index');
-		//设置游戏
+		//设置游戏初始化
 		 GAME.init();
 	});
-	// 点击我知道了规则按钮
+
+	// 点击"游戏说明"按钮，进入游戏规则说明界面
+	$body.on('click', '.js-rule', function() {
+		// 鼠标点击声音
+		resourceHelper.getSound('buttonSound').play();
+		$body.attr('data-status', 'rule');
+	});
+	// 点击游戏规则说明界面的"我知道了"按钮
 	$body.on('click', '.js-confirm-rule', function() {
+		// 鼠标点击声音
+		resourceHelper.getSound('buttonSound').play();
+		// 返回主页面
 		$body.attr('data-status', 'index');
 	})
 }
 
- /******设置对象******/
+ /******设置对象，在游戏设置界面，用于设置声音、背景、战机******/
  var SET = {
  	start: function() {
- 		// var planeIcon = this.plane.icon;
+ 
  	},
  	music: function() {
  		var musicVal = $('#musicSet').val();
  		switch(musicVal) {
+ 			// 开启声音
  			case "0":
+ 			resourceHelper.getSound('gameSound').loop = "loop"; //循环播放
  			resourceHelper.getSound('gameSound').play();
  			break;
+ 			// 关闭声音
  			case "1":
  			resourceHelper.getSound('gameSound').pause();
  		}
@@ -87,10 +109,13 @@ function bindEvent() {
  		switch(bgVal) {
  			case "1":
  			$body.css("background-image", "url(./images/bg_1.jpg)");
+ 			break;
  			case "2":
  			$body.css("background-image", "url(./images/bg_2.jpg)");
+ 			break;
  			case "3":
  			$body.css("background-image", "url(./images/bg_3.jpg)");
+ 			break;
  			case "4":
  			$body.css("background-image", "url(./images/bg_4.jpg)");
  		}
@@ -98,10 +123,12 @@ function bindEvent() {
  	fighter: function() {
  		var planeVal = $('#planeSet').val();
  		switch(planeVal) {
- 			case "1":
+ 			case "bluePlaneIcon":
  			var planeIcon = resourceHelper.getImage('bluePlaneIcon');
- 			case "2":
- 			var planeIcon = resourceHelper.getImage('pinkPlaneIcon');
+ 			return planeIcon;
+ 			case "pinkPlaneIcon":
+ 			var planeIcon = resourceHelper.getImage('pinkPlaneIcon');//得到img元素
+ 			return planeIcon;
  		}
  	}
  };
@@ -109,18 +136,15 @@ function bindEvent() {
  /******游戏对象******/
 var GAME = {
 	// 游戏初始化
+	// 初始化时可以传递配置参数opts对象进去
 	init: function(opts) {
-		// 设置opts
+		// 设置配置参数 opts， Object.assign()方法用来浅拷贝、对象属性的合并，即将opts和CONFIG对象的属性合并
 		var opts = Object.assign({}, opts, CONFIG);
 		this.opts = opts;
 
 		// 计算飞机对象初始横纵坐标
 		this.planePosX = canvasWidth / 2 - opts.planeSize.width / 2;
 		this.planePosY = canvasHeight - opts.planeSize.height - 50;
-
-
-
-
 	},
 	    //生成敌人
 	createEnemy: function(enemyType) {
@@ -192,7 +216,7 @@ var GAME = {
 			bulletSize: opts.bulletSize,
 			bulletSpeed: opts.bulletSpeed,
 			// 图标相关
-			icon: resourceHelper.getImage('bluePlaneIcon'),
+			icon: SET.fighter(),
 			bulletIcon: resourceHelper.getImage('fireIcon'),
 			boomIcon: resourceHelper.getImage('enemyBigBoomIcon')
 		});
@@ -272,6 +296,8 @@ var GAME = {
 
 		if(plane.status === 'booming') {
 			plane.booming();
+			// 飞机爆炸声音
+			resourceHelper.getSound('boomSound').play();
 			return;
 		}
 
@@ -285,6 +311,8 @@ var GAME = {
 				//判断飞机状态
 				if(plane.status === 'normal') {
 					if(plane.hasCrash(enemies)) {
+						// 飞机撞上敌机死掉的声音
+						resourceHelper.getSound('dieSound').play();
 						plane.booming();
 					}
 				}
@@ -292,8 +320,12 @@ var GAME = {
 				switch(enemy.status) {
 					case 'normal': 
 						if(plane.hasHit(enemy)) {
+							// 飞机击中敌机的声音
+							resourceHelper.getSound('shootSound').play();
 							enemy.live -= 1;
 							if(enemy.live === 0) {
+								// 敌机被击毁爆炸的声音
+								resourceHelper.getSound('boomSound').play();
 								enemy.booming();
 							}
 						}
@@ -309,14 +341,9 @@ var GAME = {
 						return this.score;
 					break;
 				}
-
-
 			}
 		}
 	},
-
-	
-
 
 	// 更新
 	update: function() {
@@ -335,15 +362,11 @@ var GAME = {
 		// 绘制画布
 		this.draw();
 		// 不断循环 update
-    requestAnimFrame(function() {
-      self.update()
-    });
+    	requestAnimFrame(function() {
+      	self.update()
+    	});
 
 	},
-
-
-
-	
 
 	// 绘制敌人和飞机
 	draw: function() {
@@ -361,22 +384,32 @@ var GAME = {
 		this.score = 0;
 		 $('.ui-end p').html("游戏结束，游戏得分为: " + score);
 		$body.attr('data-status', 'end');
+		/***每点击再玩一次时，敌机往下移动的速度越来越快，
+		到第三次点击再玩一次时，已经快的没法击中敌机，目前还没找到原因，找到原因再来补全这一功能***/
 		// 当点击再玩一次时，游戏再次start
-		$body.on('click', '.js-playAgain', function() {
-
-			$body.attr('data-status', 'start');
+	/**	$body.on('click', '.js-playAgain', function() {
+			// 鼠标点击声音
+			resourceHelper.getSound('buttonSound').play();
 			//再次开始游戏
 			GAME.init();
+			$body.attr('data-status', 'start');
 			GAME.start();
-	});
 
+		}); **/
 
-
+		// 当点击退出游戏时，回到游戏主页面
+		$body.on('click', '.js-exitGame', function() {
+			// 鼠标点击声音
+			resourceHelper.getSound('buttonSound').play();
+			$body.attr('data-status', 'index');
+			//游戏初始化
+			GAME.init();
+		});
 	}
 };
 
 
-// ***页面主入口***//
+// ***页面主入口**/
 function init() {
 	// 加载图片资源，加载完成才能交互
 	resourceHelper.load(CONFIG.resources, function(resources) {
@@ -390,4 +423,5 @@ function init() {
 
 }
 
+/***** 游戏初始化 ****/
 init();

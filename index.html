@@ -6,8 +6,9 @@
 		<link rel="stylesheet" href="css/style.css"/>
 		<title>飞机作战</title>
 	</head>
-	<body data-status="index">
+	<body data-status="index"><!--HTML5 data-* 自定义属性-->
 		<canvas id="game"></canvas>
+		<!-- 游戏主页面 -->
 		<div class="ui-index">
 			<h1>飞机大作战</h1>
 			<div class="bt-group">
@@ -16,11 +17,7 @@
 				<button class="js-rule btn">游戏说明</button>
 			</div>			
 		</div>
-		<div class="ui-rule ui-panel">
-			<h2>游戏说明</h2>
-			<p>通过手指移动飞机，躲避敌人，通过子弹射击敌人得分；游戏无限时；消灭小型飞机得100分，消灭大型飞机得1000分</p>
-			<button class="js-confirm-rule">我知道了</button>			
-		</div>
+		<!-- 游戏设置页面 -->
 		<div class="ui-setting ui-panel">
 			<h2>游戏设置</h2>
 			<ul class="setting-group">
@@ -51,10 +48,18 @@
 			
 			<button class="js-confirm-setting">确认设置</button>			
 		</div>
+		<!-- 游戏说明页面 -->
+		<div class="ui-rule ui-panel">
+			<h2>游戏说明</h2>
+			<p>通过手指移动飞机，躲避敌人，通过子弹射击敌人得分；游戏无限时；消灭小型飞机得100分，消灭大型飞机得1000分</p>
+			<button class="js-confirm-rule">我知道了</button>			
+		</div>
+		<!-- 游戏结束页面 -->
 		<div class="ui-end ui-panel">
 			<h2>游戏结束</h2>
 			<p></p>
-			<button class="js-playAgain">再玩一次</button>		
+			<!-- <button class="js-playAgain">再玩一次</button> -->
+			<button class="js-exitGame">退出游戏</button>		
 		</div>
 		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 		<script type="text/javascript" src="js/config.js"></script>

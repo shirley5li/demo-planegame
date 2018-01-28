@@ -51,6 +51,9 @@ body {
     background: none;
     font-size: 18px;
 }
+.ui-end button {
+    margin: 0 10px 20px;
+}
 /*
 .ui-rule {
 	display: none;
