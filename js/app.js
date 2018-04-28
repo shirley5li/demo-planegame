@@ -387,7 +387,7 @@ var GAME = {
 		/***每点击再玩一次时，敌机往下移动的速度越来越快，
 		到第三次点击再玩一次时，已经快的没法击中敌机，目前还没找到原因，找到原因再来补全这一功能***/
 		// 当点击再玩一次时，游戏再次start
-	/**	$body.on('click', '.js-playAgain', function() {
+		$body.on('click', '.js-playAgain', function() {
 			// 鼠标点击声音
 			resourceHelper.getSound('buttonSound').play();
 			//再次开始游戏
@@ -395,7 +395,9 @@ var GAME = {
 			$body.attr('data-status', 'start');
 			GAME.start();
 
-		}); **/
+			// 因为你重复注册事件回调
+			$body.off('click', '.js-playAgain');
+		});
 
 		// 当点击退出游戏时，回到游戏主页面
 		$body.on('click', '.js-exitGame', function() {
